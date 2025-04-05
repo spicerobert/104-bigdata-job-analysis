@@ -17,7 +17,8 @@ Analyze Big Data-related job listings from 104.com.tw with web scraping and sala
 
 ## 📊 Sample Insights
 - 嘉義縣大數據職缺平均月薪薪資最高
-- 
+- 台中市大數據職缺平均月薪薪資勝過台北市
+- 台中市各鄉鎮地區大數據職缺平均月薪薪資差異勝過台北市
 
 ## 🚀 Getting Started
 ```bash
