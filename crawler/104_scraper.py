@@ -23,7 +23,7 @@ ws['J1'] = '縣市'
 ws['K1'] = '鄉鎮市區'
 
 # 爬取的 URL
-url = "https://www.104.com.tw/jobs/search/?jobsource=index_s&keyword=%E5%A4%A7%E6%95%B8%E6%93%9A&mode=s&page=1"
+url = "https://www.104.com.tw/jobs/search/?jobsource=joblist_search&keyword=%E8%81%B7%E6%A5%AD%E5%AE%89%E5%85%A8%E8%A1%9B%E7%94%9F%E7%AE%A1%E7%90%86%E5%93%A1&mode=s&page=1&order=15&jobcat=2009004008&area=6001002000,6001001000"
 res = requests.get(url)
 soup = bs4.BeautifulSoup(res.text, "html.parser")  # 明確指定解析器
 allJobsInform = soup.find_all('div', class_='info-container')
@@ -74,7 +74,7 @@ while allJobsInform != []:
 
     # 下一頁
     page += 1
-    url = f"https://www.104.com.tw/jobs/search/?jobsource=index_s&keyword=%E5%A4%A7%E6%95%B8%E6%93%9A&mode=s&page={page}"
+    url = f"https://www.104.com.tw/jobs/search/?jobsource=joblist_search&keyword=%E8%81%B7%E6%A5%AD%E5%AE%89%E5%85%A8%E8%A1%9B%E7%94%9F%E7%AE%A1%E7%90%86%E5%93%A1&mode=s&page={page}"+f"&order=15&jobcat=2009004008&area=6001002000,6001001000"
     res = requests.get(url)
     soup = bs4.BeautifulSoup(res.text, "html.parser")
     allJobsInform = soup.find_all('div', class_='info-container')
