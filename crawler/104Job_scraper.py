@@ -1,29 +1,17 @@
-#先創建Excel，再將爬取資料進行處裡並一一填入
+#先創建pandas DataFrame，再將爬取資料進行處理並存入，最後一次性輸出到Excel
 import requests
 import bs4
 from time import sleep
-import openpyxl
+import pandas as pd
 import os
 
-# 創建 Excel 檔案
-wb = openpyxl.Workbook()
-ws = wb.active
-
-# 設定 Excel 標題
-ws['A1'] = '職缺名稱'
-ws['B1'] = '職缺連結'
-ws['C1'] = '公司名稱'
-ws['D1'] = '工作地區'
-ws['E1'] = '薪資待遇'
-ws['F1'] = '給薪方式'
-ws['G1'] = '薪資下界'
-ws['H1'] = '薪資上界'
-ws['I1'] = '平均薪資'
-ws['J1'] = '縣市'
-ws['K1'] = '鄉鎮市區'
+# 創建 DataFrame
+columns = ['職缺名稱', '職缺連結', '公司名稱', '工作地區', '薪資待遇', 
+           '給薪方式', '薪資下界', '薪資上界', '平均薪資', '縣市', '鄉鎮市區']
+df = pd.DataFrame(columns=columns)
 
 # 爬取的 URL
-url = "https://www.104.com.tw/jobs/search/?jobsource=joblist_search&keyword=%E7%94%9F%E7%94%A2%E7%AE%A1%E7%90%86+%E7%94%9F%E7%94%A2%E6%8E%92%E7%A8%8B&mode=s&page=1&order=15&area=6001002000,6001001000"
+url = "https://www.104.com.tw/jobs/search/?jobcat=2009004008,2009004001&jobsource=joblist_search&keyword=%E8%81%B7%E6%A5%AD%E5%AE%89%E5%85%A8%E8%A1%9B%E7%94%9F%E7%AE%A1%E7%90%86%E5%93%A1&mode=s&order=15&page=1&area=6001001000"
 res = requests.get(url)
 soup = bs4.BeautifulSoup(res.text, "html.parser")  # 明確指定解析器
 allJobsInform = soup.find_all('div', class_='info-container')
@@ -65,17 +53,23 @@ while allJobsInform != []:
             else:
               avgSalary = ''
 
-            # 寫入 Excel
+            # 將資料加入 DataFrame
             print(job_name, job_link, job_company, job_area, job_salary, PayWay, lowEndSalary, highEndSalary, avgSalary, job_county, job_section)
-            ws.append([job_name, job_link, job_company, job_area, job_salary, PayWay, lowEndSalary, highEndSalary, avgSalary, job_county, job_section])
+            df.loc[len(df)] = [job_name, job_link, job_company, job_area, job_salary, PayWay, lowEndSalary, highEndSalary, avgSalary, job_county, job_section]
         except Exception as e:
             print(f"資料解析錯誤：{e}")
     sleep(2)
 
     # 下一頁
     page += 1
-    url = f"https://www.104.com.tw/jobs/search/?jobsource=joblist_search&keyword=%E7%94%9F%E7%94%A2%E7%AE%A1%E7%90%86+%E7%94%9F%E7%94%A2%E6%8E%92%E7%A8%8B&mode=s&page={page}"+f"&order=15&area=6001002000,6001001000"
+    url = f"https://www.104.com.tw/jobs/search/?jobcat=2009004008,2009004001&jobsource=joblist_search&keyword=%E8%81%B7%E6%A5%AD%E5%AE%89%E5%85%A8%E8%A1%9B%E7%94%9F%E7%AE%A1%E7%90%86%E5%93%A1&mode=s&order=15&page={page}"+f"&area=6001001000"
     res = requests.get(url)
     soup = bs4.BeautifulSoup(res.text, "html.parser")
     allJobsInform = soup.find_all('div', class_='info-container')
-    wb.save('./data/104CrawlResult.xlsx')
+
+# 確保輸出目錄存在
+os.makedirs('./data', exist_ok=True)
+
+# 將 DataFrame 輸出至 Excel
+df.to_excel('./data/104CrawlResult.xlsx', index=False)
+print(f"爬蟲完成，共獲取 {len(df)} 筆資料，已儲存至 './data/104CrawlResult.xlsx'")
