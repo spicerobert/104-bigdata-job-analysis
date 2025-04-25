@@ -10,6 +10,7 @@ columns = ['職缺名稱', '職缺連結', '公司名稱', '工作地區', '薪�
            '給薪方式', '薪資下界', '薪資上界', '平均薪資', '縣市', '鄉鎮市區']
 df = pd.DataFrame(columns=columns)
 
+
 # 爬取的 URL
 url = "https://www.104.com.tw/jobs/search/?jobcat=2009004008,2009004001&jobsource=joblist_search&keyword=%E8%81%B7%E6%A5%AD%E5%AE%89%E5%85%A8%E8%A1%9B%E7%94%9F%E7%AE%A1%E7%90%86%E5%93%A1&mode=s&order=15&page=1&area=6001001000"
 res = requests.get(url)
