@@ -3,13 +3,12 @@ import requests
 import bs4
 from time import sleep
 import pandas as pd
-import os
 import xlwings as xw
 import urllib.parse
 swb = xw.Book.caller()
 
 @xw.func
-def scrape_jobs(keyword="職安管理員", area="6001001000,6001002000", jobcat="", max_page=0):
+def scrape_jobs(keyword="", area="", jobcat="", max_page=0):
     try:
         # 創建 DataFrame
         columns = ['職缺名稱', '職缺連結', '公司名稱', '工作地區', '薪資待遇', 
@@ -39,7 +38,7 @@ def scrape_jobs(keyword="職安管理員", area="6001001000,6001002000", jobcat=
                 try:
                     # 抓取職缺資訊
                     job_name = job.a.text.strip()
-                    job_link = "https:" + job.a['href']
+                    job_link = job.a['href']
                     job_company = job.select('a')[1].text.strip()
                     job_area = job.select('a')[3].string.strip()
                     job_salary = job.select('a')[6].string.strip()
@@ -90,17 +89,15 @@ def scrape_jobs(keyword="職安管理員", area="6001001000,6001002000", jobcat=
             soup = bs4.BeautifulSoup(res.text, "html.parser")
             allJobsInform = soup.find_all('div', class_='info-container')
 
-        # 確保輸出目錄存在
-        os.makedirs('./data', exist_ok=True)
-
-        # 將 DataFrame 輸出至 Excel
-        df.to_excel('./data/104CrawlResult.xlsx', index=False)
-        print(f"爬蟲完成，共獲取 {len(df)} 筆資料，已儲存至 './data/104CrawlResult.xlsx'")
+        # 寫入指定工作表
+        swb.sheets['TEMP'].range('A1').value = url
+        swb.sheets['職缺'].range('A1').value = df.columns.tolist()
+        swb.sheets['職缺'].range('A2').value =df.values
 
         return "爬蟲完成，資料已儲存至 ./data/104CrawlResult.xlsx"
 
     except Exception as e:
-        swb.sheets['TEMP'].range('A1').value = f"Error: {e}"
+        swb.sheets['TEMP'].range('A2').value = f"Error: {e}"
         return f"爬蟲過程中發生錯誤: {e}"
 
 if __name__ == "__main__":
