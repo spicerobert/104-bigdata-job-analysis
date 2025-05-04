@@ -1,138 +1,70 @@
 import requests
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+import os
 
-# 將 cookie 轉換為 dict 格式
-cookies = {
-    "ithp": "eyJ0eXAiOiJpZC10b2tlbitqd3QiLCJraWQiOiI5ZGUyNmI0MC01YTQ2LTQzOTktODE1Mi1lN2FjMGZkOGMxMzkiLCJhbGciOiJFUzI1NiJ9.eyJhenAiOiJmNTA3MTYxYi0xN2RjLTRkMWItYWZkZS0wZGI2NmM5ODFjZTIiLCJub25jZSI6IjNlMTQzMWExLTI2MTktNDQ2Ny05NDQzLTYxMjMzZjM4NDlhNCIsImF1dGhfdGltZSI6MTc0NjI2NjQ1MSwidXJuOjEwNDp2MzplbnRpdHk6dHJhY2VfaWQiOiIwZjYwM2YzODMyNzE5YzZiZjRmMGNlOTQ1ODI2Y2QwNSIsInVybjoxMDQ6djM6ZW50aXR5OmxvZ2luX25vIjoiODkzMjA0NTg1NTkxNTE2ODM3IiwidXJuOjEwNDp2MzplbnRpdHk6Y29tcGFueV9pZCI6IjIzMjI1ODg5MDAwIiwidXJuOjEwNDp2MzplbnRpdHk6cGlkIjoiMTcyNTk4NDciLCJ1cm46MTA0OnYzOmVudGl0eTppbXBlcnNvbmF0b3JfaWQiOiIiLCJ1cm46MTA0OnYzOmVudGl0eTppbXBlcnNvbmF0b3JfbmFtZSI6IiIsInVybjoxMDQ6djM6ZW50aXR5OmF0c19zdGF0ZSI6ImluYWN0aXZlIiwidXJuOjEwNDp2MjpzZXNzaW9uIjoiZXlKaGJHY2lPaUpGUTBSSUxVVlRLMEV5TlRaTFZ5SXNJbVZ1WXlJNklrRXlOVFpIUTAwaUxDSnJhV1FpT2lJeVl6azFObVZrWVMxbFlUUXhMVFF6TkdVdFlqZGhZeTFpTWpnMlpXTmtOakF5T0dNaUxDSmxjR3NpT25zaWVDSTZJbVJEUTNkWVpYVkNWazU1ZEdSSGQweElOMkpWVDFoTU0zTkZUSE5pWWtRd00yNUJSakY0VVhweFIwRWlMQ0pqY25ZaU9pSlFMVEkxTmlJc0ltdDBlU0k2SWtWRElpd2llU0k2SW1Kd1gzQllWbFl4YkZsME0zQkJNemxaVGs1eVFucFBWMHd5TmxsR2FGOUVjMDFMUm5Od2VGcGZNbEVpZlgwLlQ1XzFOa004Y2JCellyVk1FbkF4TmJhTVZTaC1lNXh4MHlRLVREbk9kWjYwY0sxQlJPelhQZy5EdEtTT2tVaWM0YlIxT01oLld3R0trR183LTQyeUtqN2JXVUFMMDBIQmtqV0JaOWFqbnFIZE5NMjBCNzQ4RXlwZE8yM053bjAtQUFRRVZ3c1dqd2h6T0ZoVGNGVW1OM2dJd2JyRC43Qy1yMDBtMTdjczFyX1Zna2hrdXNnIiwidXJuOjEwNDp2MjppbXBlcnNvbmF0aW9uIjoiIiwidXJuOjEwNDp2MjplbnRpdHk6dXNlcl9pZCI6IlVsdWgzWjNGOTZZVzV3NXZRTGJNIiwiaXNzIjoiaHR0cHM6Ly9hdXRoLXNlcnZlci52aXAuMTA0LmNvbS50dyIsImF1ZCI6WyJmNTA3MTYxYi0xN2RjLTRkMWItYWZkZS0wZGI2NmM5ODFjZTIiLCJodHRwczovL2F1dGgtc2VydmVyLnZpcC4xMDQuY29tLnR3Il0sInN1YiI6InJvYmVydEBhdW50c3RlbGxhLmNvbS50dyIsImV4cCI6MTc0NjM1Mjg0OSwianRpIjoiYTdiZGNmZjgtNDAxMi00N2M1LWFlZGEtYjFlZGRiNjA4NjBjIiwiaWF0IjoxNzQ2MjY2NDQ5fQ"
-}
+# --- 設定登入資訊 ---
+USERNAME = "robert@auntstella.com.tw"  # 請在這裡替換成您的 104 帳號，或從外部載入
+PASSWORD = "spice7434"  # 請在這裡替換成您的 104 密碼，或從外部載入
 
-# 指定一個需要使用 cookies 的 URL
-url = "https://bsignin.104.com.tw/login"
+# Get the path to the ChromeDriver executable
+chromedriver_path = ChromeDriverManager().install()
+print(chromedriver_path)
 
-# 發送帶有 cookies 的 GET 請求
-response = requests.get(url, cookies=cookies)
+# Correct the path to point to chromedriver.exe
+chromedriver_path = os.path.join(os.path.dirname(chromedriver_path), "chromedriver.exe")
 
-# 顯示回應狀態碼與部分內容
-print(response.status_code)
-print(response.text[:500])  # 輸出前 500 字符供確認
+# 設定 Chrome options
+chrome_options = Options()
+chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+chrome_options.add_argument("--remote-debugging-port=9222")
+chrome_options.add_argument("--disable-dev-shm-usage")
 
-def scrape_resume():
-  #先創建Excel，再將爬取資料進行處裡並一一填入
-  import requests
-  import bs4
-  session = requests.Session()
+# 啟動 driver
+service = Service(chromedriver_path)
+driver = webdriver.Chrome(service=service, options=chrome_options)
 
-  # 取得登入頁面，取得 CSRF token（如果有的話）
-  res = session.get('https://bsignin.104.com.tw/login')
-  soup = bs4(res.text, 'html.parser')
+login_url = "https://bsignin.104.com.tw/login"
+target_url = "https://vip.104.com.tw/index/index"  # 登入後要前往的目標頁面
 
-  # 觀察有無 hidden 欄位，像 csrf token
-  # token = soup.find('input', {'name': 'csrf_token'})['value']
+driver.get(login_url)
+# Find the username and password input fields and the login button
+wait = WebDriverWait(driver, 20)
+username_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[data-qa-id="loginUserName"]')))
+username_field.send_keys(USERNAME)
+password_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[data-qa-id="loginPassword"]')))
+password_field.send_keys(PASSWORD)
+remember_label = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'label[for="remember"]')))
+remember_label.click() # <- 加上括號 () 來執行點擊
+login_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-qa-id="loginButton"]')))
+login_button.click()
+time.sleep(60)  # 等待登入完成，根據網速調整時間
 
-  # 模擬登入資訊（根據觀察的欄位名稱）
-  payload = {
-      'username': 'robert@auntstella.com.tw',
-      'password': 'spice7434',
-      # 'csrf_token': token,  # 若有需要的話
-  }
+# Navigate to the target URL
+driver.get(target_url)
+print(f"頁面標題: {driver.title}")
+# Find and click the logout button
+try:
+    logout_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-v-b1877ad6][class="btn btn-secondary-b3 btn--sm btn--responsive"]')))
+    logout_button.click()
+    print("登出按鈕已點擊")
+except Exception as e:
+    print(f"登出按鈕未找到或無法點擊: {e}")
 
-  headers = {
-      'User-Agent': 'Mozilla/5.0',
-      'Referer': 'https://bsignin.104.com.tw/login'
-  }
+print("在這裡執行您的爬蟲代碼...")
+# --- 爬蟲邏輯 ---
+# 使用 session.get() 抓取需要登入才能看到的頁面
+# 例如：
+# response = session.get("https://example.com/secret_page")
+# soup = BeautifulSoup(response.text, "html.parser")
+# ... (解析頁面)
 
-  # 根據觀察到的 POST 登入 API URL
-  login_response = session.post('https://bsignin.104.com.tw/login', data=payload, headers=headers)
-
-  # 登入成功後進一步抓取目標頁面
-  target_url = 'https://somepage.104.com.tw/data'
-  resp = session.get(target_url)
-  soup = bs4(resp.text, 'html.parser')
-
-  print(soup.prettify())
-  # 創建 Excel 檔案
-  # wb = openpyxl.Workbook()
-  # ws = wb.active
-
-  # # 設定 Excel 標題
-  # ws['A1'] = '職缺名稱'
-  # ws['B1'] = '職缺連結'
-  # ws['C1'] = '公司名稱'
-  # ws['D1'] = '工作地區'
-  # ws['E1'] = '薪資待遇'
-  # ws['F1'] = '給薪方式'
-  # ws['G1'] = '薪資下界'
-  # ws['H1'] = '薪資上界'
-  # ws['I1'] = '平均薪資'
-  # ws['J1'] = '縣市'
-  # ws['K1'] = '鄉鎮市區'
-
-  # 爬取的 URL
-  # url = f"https://vip.104.com.tw/search/searchResult?loadTime=2025-04-29%2014%3A13%3A36&ec=102&jobcat=2009001000&city=6001001000,6001002000&plastActionDateType=1&workExpTimeType=all&workExpTimeMin=1&workExpTimeMax=1&sex=2&empStatus=0&updateDateType=1&contactPrivacy=0&sortType=PLASTACTIONDATE"
-  # res = requests.get(url)
-  # soup = bs4.BeautifulSoup(res.text, "html.parser")  # 明確指定解析器
-  # # allResumesInform = soup.find_all('div', class_='resume-card-item resume-card__center cellspcr-40')
-  
- 
-  # if allResumesInform:
-  #   print("allResumesInform 容器中有物件。")
-  # else:
-  #   print("allResumesInform 容器是空的。")
-  
-  # page = 1
-  # while allResumesInform != []:
-  #     print(f"=========================== 現在抓到第 {page} 頁資料 ===========================")
-  #     for resume in allResumesInform:
-  #         try:
-  #             # 抓取職缺資訊
-  #             name_tag=resume.find('a',class_='name word-break-all')
-  #             if name_tag:
-  #               resume_name=name_tag.text.strip()
-  #               print(f"找到名字: {resume_name}") # 驗證一下
-              # job_link = "https:" + job.a['href']
-              # job_company = job.select('a')[1].text.strip()
-              # job_area = job.select('a')[3].string.strip()
-              # job_salary = job.select('a')[6].string.strip()
-
-              # job_county = job_area[:3]
-              # job_section = job_area[3:]
-              # PayWay = job_salary[:2]
-              # if PayWay == "待遇":
-              #   PayWay = "面議"
-
-              # salary = ''
-              # for char in job_salary:
-              #   if char.isdigit() or char=='~':
-              #     salary += char
-
-              # if '~' in salary:
-              #   lowEndSalary  = salary[:salary.find('~')]
-              #   highEndSalary = salary[salary.find('~')+1:]
-              # else:
-              #   lowEndSalary  = salary
-              #   highEndSalary = salary
-
-              # if lowEndSalary != '' and highEndSalary != '':
-              #   lowEndSalary = int(lowEndSalary)
-              #   highEndSalary = int(highEndSalary)
-              #   avgSalary = (lowEndSalary + highEndSalary)/2
-              # else:
-              #   avgSalary = ''
-
-              # 寫入 Excel
-              # print(resume_name, job_link, job_company, job_area, job_salary, PayWay, lowEndSalary, highEndSalary, avgSalary, job_county, job_section)
-              # ws.append([job_name, job_link, job_company, job_area, job_salary, PayWay, lowEndSalary, highEndSalary, avgSalary, job_county, job_section])
-          # except Exception as e:
-          #     print(f"資料解析錯誤：{e}")
-      # sleep(2)
-
-      # 下一頁
-      # page += 1
-      # url = f"https://www.104.com.tw/jobs/search/?jobsource=index_s&keyword=%E5%A4%A7%E6%95%B8%E6%93%9A&mode=s&page={page}"
-      # res = requests.get(url)
-      # soup = bs4.BeautifulSoup(res.text, "html.parser")
-      # allJobsInform = soup.find_all('div', class_='info-container')
-      # wb.save('./data/104CrawlResult.xlsx')
-
-if __name__ == "__main__":
-    # This block allows you to run the script directly for testing
-    scrape_resume()
+# 爬完資料記得關掉 driver
+print("Selenium 操作完成，正在關閉瀏覽器...")
+driver.quit() # 確保瀏覽器和 driver 進程被關閉
