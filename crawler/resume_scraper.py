@@ -26,45 +26,53 @@ chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64
 chrome_options.add_argument("--remote-debugging-port=9222")
 chrome_options.add_argument("--disable-dev-shm-usage")
 
-# 啟動 driver
-service = Service(chromedriver_path)
-driver = webdriver.Chrome(service=service, options=chrome_options)
+def login_104():
+    # 啟動 driver
+    service = Service(chromedriver_path)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
 
-login_url = "https://bsignin.104.com.tw/login"
-target_url = "https://vip.104.com.tw/index/index"  # 登入後要前往的目標頁面
+    login_url = "https://bsignin.104.com.tw/login"
+    target_url = "https://vip.104.com.tw/index/index"  # 登入後要前往的目標頁面
 
-driver.get(login_url)
-# Find the username and password input fields and the login button
-wait = WebDriverWait(driver, 20)
-username_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[data-qa-id="loginUserName"]')))
-username_field.send_keys(USERNAME)
-password_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[data-qa-id="loginPassword"]')))
-password_field.send_keys(PASSWORD)
-remember_label = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'label[for="remember"]')))
-remember_label.click() # <- 加上括號 () 來執行點擊
-login_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-qa-id="loginButton"]')))
-login_button.click()
-time.sleep(60)  # 等待登入完成，根據網速調整時間
+    driver.get(login_url)
+    # Find the username and password input fields and the login button
+    wait = WebDriverWait(driver, 20)
+    username_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[data-qa-id="loginUserName"]')))
+    username_field.send_keys(USERNAME)
+    password_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[data-qa-id="loginPassword"]')))
+    password_field.send_keys(PASSWORD)
+    remember_label = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'label[for="remember"]')))
+    remember_label.click()
+    login_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-qa-id="loginButton"]')))
+    login_button.click()
+    time.sleep(60)  # 等待登入完成，根據網速調整時間
 
-# Navigate to the target URL
-driver.get(target_url)
-print(f"頁面標題: {driver.title}")
-# Find and click the logout button
-try:
-    logout_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-v-b1877ad6][class="btn btn-secondary-b3 btn--sm btn--responsive"]')))
-    logout_button.click()
-    print("登出按鈕已點擊")
-except Exception as e:
-    print(f"登出按鈕未找到或無法點擊: {e}")
+    # Navigate to the target URL
+    driver.get(target_url)
+    print(f"頁面標題: {driver.title}")
+    # Find and click the logout button
+    try:
+        logout_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-v-b1877ad6][class="btn btn-secondary-b3 btn--sm btn--responsive"]')))
+        logout_button.click()
+        print("登出按鈕已點擊")
+    except Exception as e:
+        print(f"登出按鈕未找到或無法點擊: {e}")
+    
+    return driver
 
-print("在這裡執行您的爬蟲代碼...")
-# --- 爬蟲邏輯 ---
-# 使用 session.get() 抓取需要登入才能看到的頁面
-# 例如：
-# response = session.get("https://example.com/secret_page")
-# soup = BeautifulSoup(response.text, "html.parser")
-# ... (解析頁面)
+def scrape_data(driver):
+    print("在這裡執行您的爬蟲代碼...")
+    # --- 爬蟲邏輯 ---
+    # 使用 session.get() 抓取需要登入才能看到的頁面
+    # 例如：
+    # response = session.get("https://example.com/secret_page")
+    # soup = BeautifulSoup(response.text, "html.parser")
+    # ... (解析頁面)
 
-# 爬完資料記得關掉 driver
-print("Selenium 操作完成，正在關閉瀏覽器...")
-driver.quit() # 確保瀏覽器和 driver 進程被關閉
+    # 爬完資料記得關掉 driver
+    print("Selenium 操作完成，正在關閉瀏覽器...")
+    driver.quit() # 確保瀏覽器和 driver 進程被關閉
+
+if __name__ == '__main__':
+    driver = login_104()
+    scrape_data(driver)
