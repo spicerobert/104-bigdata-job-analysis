@@ -2,11 +2,24 @@ import requests
 import json
 import os
 
-# Load cookies from the JSON file
-script_dir = os.path.dirname(os.path.abspath(__file__))
-cookies_file = os.path.join(script_dir, "cookies.json")
-with open(cookies_file, "r") as f:
-    cookies = json.load(f)
+def load_cookies(file_path='crawler/104_cookies.json'):
+    """Loads cookies from a JSON file."""
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    abs_file_path = os.path.join(script_dir, file_path)
+    try:
+        with open(abs_file_path, 'r', encoding='utf-8') as f:
+            cookies = json.load(f)
+        print(f"Successfully loaded {len(cookies)} cookies from {abs_file_path}")  # Confirmation message
+        return cookies
+    except FileNotFoundError:
+        print(f"Error: Cookie file not found at {abs_file_path}")
+        return []
+    except json.JSONDecodeError:
+        print(f"Error: Invalid JSON format in {abs_file_path}")
+        return []
+
+# Load cookies
+cookies = load_cookies()
 
 # Create a session object
 session = requests.Session()
@@ -21,7 +34,7 @@ response = session.get(url)
 
 # Print the response status code
 print(response.status_code)
-print(response.raise_for_status())
+response.raise_for_status()
 
 # Extract the title
 if "<title>" in response.text:
@@ -29,6 +42,3 @@ if "<title>" in response.text:
     print(title)
 else:
     print("Error: <title> tag not found in the response.")
-
-# Print the response content (optional)
-# print(response.content)

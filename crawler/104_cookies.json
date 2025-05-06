@@ -1,0 +1,357 @@
+[
+    {
+        "domain": "vip.104.com.tw",
+        "expiry": 1755100800,
+        "httpOnly": false,
+        "name": "notifiSubscribe",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "notifiSubscribe"
+    },
+    {
+        "domain": "vip.104.com.tw",
+        "expiry": 1755100800,
+        "httpOnly": false,
+        "name": "browserToken",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "c_qAfT2UxlhCFaV4ESucv1:APA91bG7XnxDrbt-Nq5qX7WKnquvnBvook_3H7557kllH6rK2566KLKqvyD6LtFRn10oGSt1e_mI6huIDP9JeahWQHX-WNScp9fvQP0gcZefaQ5UlGSDNFg"
+    },
+    {
+        "domain": ".vip.104.com.tw",
+        "expiry": 1781086105,
+        "httpOnly": false,
+        "name": "_ga_SVQX9G498L",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "GS2.4.s1746526099$o1$g1$t1746526105$j54$l0$h0"
+    },
+    {
+        "domain": ".vip.104.com.tw",
+        "httpOnly": true,
+        "name": "PHPSESSID",
+        "path": "/",
+        "sameSite": "Strict",
+        "secure": true,
+        "value": "1614189956957509136%3A0777fa3f4218312c50e6"
+    },
+    {
+        "domain": ".vip.104.com.tw",
+        "expiry": 1746612499,
+        "httpOnly": true,
+        "name": "its",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "value": "idpmwJzHCFGiHywWeg7oxR3FUTniea8PCMidFiOm_4hqHypY70urwGih_PK_bgAPahxBhRnVdNJM8qXYG8FnUA"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1778062102,
+        "httpOnly": false,
+        "name": "_clck",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "g8xufq%7C2%7Cfvo%7C0%7C1952"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1781086102,
+        "httpOnly": false,
+        "name": "lunp",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "4507568175053"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1746612502,
+        "httpOnly": false,
+        "name": "_clsk",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "1hbynuj%7C1746526102934%7C1%7C1%7Cn.clarity.ms%2Fcollect"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1781086102,
+        "httpOnly": false,
+        "name": "lup",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "1140132423.4739496408929.4507568175053.1.4640712161167"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1781086102,
+        "httpOnly": false,
+        "name": "_ga_W9X1GB1SVR",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "GS2.1.s1746526065$o1$g1$t1746526102$j23$l0$h0"
+    },
+    {
+        "domain": ".vip.104.com.tw",
+        "expiry": 1781086101,
+        "httpOnly": false,
+        "name": "_ga",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "GA1.4.893475425.1746526065"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1781086101,
+        "httpOnly": false,
+        "name": "_ga_FJWMQR9J2K",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "GS2.1.s1746526065$o1$g1$t1746526101$j24$l0$h0"
+    },
+    {
+        "domain": ".104.com.tw",
+        "httpOnly": false,
+        "name": "dtCookie",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "v_4_srv_4_sn_061E2466F74386CC3C92DC42EB652484_perc_100000_ol_0_mul_1_app-3Aea7c4b59f27d43eb_0"
+    },
+    {
+        "domain": ".104.com.tw",
+        "httpOnly": false,
+        "name": "scarab.visitor",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "%2245307698CFEEAEE%22"
+    },
+    {
+        "domain": ".vip.104.com.tw",
+        "expiry": 1746612510,
+        "httpOnly": false,
+        "name": "isNewCalendar",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "value": "1"
+    },
+    {
+        "domain": ".vip.104.com.tw",
+        "expiry": 1749118098,
+        "httpOnly": true,
+        "name": "CFTOKEN",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "value": "0777fa3f4218312c50e6"
+    },
+    {
+        "domain": ".vip.104.com.tw",
+        "expiry": 1746547201,
+        "httpOnly": true,
+        "name": "searchPocGroup",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "value": "4"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1781086102,
+        "httpOnly": false,
+        "name": "luauid",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "1140132423"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1749118097,
+        "httpOnly": false,
+        "name": "AC_B",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "value": "WyJ2aXAxMDQiXQ"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1754302102,
+        "httpOnly": false,
+        "name": "_fbp",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "fb.2.1746526099454.824076713315341502"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1778062102,
+        "httpOnly": false,
+        "name": "_hjSessionUser_3218023",
+        "path": "/",
+        "sameSite": "None",
+        "secure": true,
+        "value": "eyJpZCI6ImY0NzNkMTY2LTBlZmUtNTNiYy1hOTc2LTkxODczNGE5NDZkMCIsImNyZWF0ZWQiOjE3NDY1MjYwOTk0ODAsImV4aXN0aW5nIjp0cnVlfQ=="
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1781086099,
+        "httpOnly": false,
+        "name": "_ga",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "GA1.1.893475425.1746526065"
+    },
+    {
+        "domain": ".vip.104.com.tw",
+        "expiry": 1746612499,
+        "httpOnly": false,
+        "name": "ithp",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "value": "eyJ0eXAiOiJpZC10b2tlbitqd3QiLCJraWQiOiI5ZGUyNmI0MC01YTQ2LTQzOTktODE1Mi1lN2FjMGZkOGMxMzkiLCJhbGciOiJFUzI1NiJ9.eyJhenAiOiJmNTA3MTYxYi0xN2RjLTRkMWItYWZkZS0wZGI2NmM5ODFjZTIiLCJub25jZSI6ImFhMmQ3NjEzLTJmNzYtNGU2Yy05YmIxLTE5YmI5ZTljN2I1YiIsImF1dGhfdGltZSI6MTc0NjUyNjEwMCwidXJuOjEwNDp2MzplbnRpdHk6dHJhY2VfaWQiOiI4ODZjZDc5NDI3MWJlMjM4MWI0YWU4MTA4MmM0NjdmMSIsInVybjoxMDQ6djM6ZW50aXR5OmxvZ2luX25vIjoiODkzMjA0NTg1NTkxNTE2ODM3IiwidXJuOjEwNDp2MzplbnRpdHk6Y29tcGFueV9pZCI6IjIzMjI1ODg5MDAwIiwidXJuOjEwNDp2MzplbnRpdHk6cGlkIjoiMTcyNTk4NDciLCJ1cm46MTA0OnYzOmVudGl0eTppbXBlcnNvbmF0b3JfaWQiOiIiLCJ1cm46MTA0OnYzOmVudGl0eTppbXBlcnNvbmF0b3JfbmFtZSI6IiIsInVybjoxMDQ6djM6ZW50aXR5OmF0c19zdGF0ZSI6ImluYWN0aXZlIiwidXJuOjEwNDp2MjpzZXNzaW9uIjoiZXlKaGJHY2lPaUpGUTBSSUxVVlRLMEV5TlRaTFZ5SXNJbVZ1WXlJNklrRXlOVFpIUTAwaUxDSnJhV1FpT2lJeVl6azFObVZrWVMxbFlUUXhMVFF6TkdVdFlqZGhZeTFpTWpnMlpXTmtOakF5T0dNaUxDSmxjR3NpT25zaWVDSTZJbVJWZFhabVduVkZMVzFJWW5BMU9XMUtOVFUxUzI1bVpYVlBlblpITUZsNlUzcHRRMkY2ZERsTlVXc2lMQ0pqY25ZaU9pSlFMVEkxTmlJc0ltdDBlU0k2SWtWRElpd2llU0k2SW14NWRqZHZNVGxKYUVOTmRYbERVRWwxTFd0cVpUbHBOMjg0ZEdrdGNqbERjME5UWmxSRVZUZEJXbGtpZlgwLm41TGlFZ3cySVhQTncycGxEOGEtRWVlQmFYcFBiRGRMeC1GZlA0OUxjaVhTRFV0YzlzRjRnQS5DUEVFVHhRYzQ0ekNjLWxQLmc3amItemJDR0hhWlJMSXA2UFRrMFgxbE5HWGYydzdQUnhVWkNQUEVVa2FKWi0wS3NTaFpkaXpfbU40TEpMbEFoX09hczBzcmp1cU5QZ2hvTkNGZi5zZjVreTViMlQxS0UtQnRvbHh5YXd3IiwidXJuOjEwNDp2MjppbXBlcnNvbmF0aW9uIjoiIiwidXJuOjEwNDp2MjplbnRpdHk6dXNlcl9pZCI6IlVsdWgzWjNGOTZZVzV3NXZRTGJNIiwiaXNzIjoiaHR0cHM6Ly9hdXRoLXNlcnZlci52aXAuMTA0LmNvbS50dyIsImF1ZCI6WyJmNTA3MTYxYi0xN2RjLTRkMWItYWZkZS0wZGI2NmM5ODFjZTIiLCJodHRwczovL2F1dGgtc2VydmVyLnZpcC4xMDQuY29tLnR3Il0sInN1YiI6InJvYmVydEBhdW50c3RlbGxhLmNvbS50dyIsImV4cCI6MTc0NjYxMjQ5OSwianRpIjoiYWU1ZjQxZWYtNmRiNi00Y2M2LWI1OTctZjYwYTcxZDRhZjVmIiwiaWF0IjoxNzQ2NTI2MDk5fQ"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1781086098,
+        "httpOnly": false,
+        "name": "_ga_EK43MBJWX0",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "GS2.1.s1746526065$o1$g1$t1746526098$j27$l0$h0"
+    },
+    {
+        "domain": ".vip.104.com.tw",
+        "expiry": 1746612500,
+        "httpOnly": true,
+        "name": "LGCRM",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "value": "1"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1749118097,
+        "httpOnly": false,
+        "name": "EPKB",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "value": "0ad4caa4-0648-4559-af25-6e0f9a2edbe2"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1746612497,
+        "httpOnly": false,
+        "name": "_gid",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "GA1.3.1592532425.1746526066"
+    },
+    {
+        "domain": "vip.104.com.tw",
+        "httpOnly": true,
+        "name": "PHPSESSID",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "value": "1614189956957509136%3A0777fa3f4218312c50e6"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1754302098,
+        "httpOnly": false,
+        "name": "_gcl_au",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "1.1.1423452275.1746526099"
+    },
+    {
+        "domain": ".vip.104.com.tw",
+        "expiry": 1749052801,
+        "httpOnly": true,
+        "name": "recommendResumePocGroup",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "value": "3"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1746526125,
+        "httpOnly": false,
+        "name": "_gat_UA-15276226-11",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "1"
+    },
+    {
+        "domain": "vip.104.com.tw",
+        "httpOnly": false,
+        "name": "_hjHasCachedUserAttributes",
+        "path": "/",
+        "sameSite": "None",
+        "secure": true,
+        "value": "true"
+    },
+    {
+        "domain": ".vip.104.com.tw",
+        "expiry": 1749118098,
+        "httpOnly": true,
+        "name": "CFID",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "value": "1614189956957509136"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1746526125,
+        "httpOnly": false,
+        "name": "_gat_UA-56128201-1",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "value": "1"
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1746527899,
+        "httpOnly": false,
+        "name": "_hjSession_3218023",
+        "path": "/",
+        "sameSite": "None",
+        "secure": true,
+        "value": "eyJpZCI6ImZjNzRjNDg0LTAzNzktNDFkYS05YmE3LTVkNDFiNDc3Yzg5NiIsImMiOjE3NDY1MjYwOTk0ODEsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MH0="
+    },
+    {
+        "domain": ".104.com.tw",
+        "expiry": 1781086097,
+        "httpOnly": false,
+        "name": "ACUD",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "value": "c4fe77e1-d1a3-40de-9e0d-c0c99af4f6a9"
+    }
+]
