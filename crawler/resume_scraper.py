@@ -1,17 +1,14 @@
 import time
 import os
 import xlwings as xw
-# swb = xw.Book.caller()
+wb = xw.Book.caller()
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-import requests
-import json
-
 # --- 設定登入資訊 ---
-username = "robert@auntstella.com.tw"  # 請在這裡替換成您的 104 帳號，或從外部載入
-password = "spice7434"  # 請在這裡替換成您的 104 密碼，或從外部載入
+# username = "robert@auntstella.com.tw"  # 請在這裡替換成您的 104 帳號，或從外部載入
+# password = "spice7434"  # 請在這裡替換成您的 104 密碼，或從外部載入
 
-def login_104(USERNAME=username, PASSWORD=password):
+def login_104(USERNAME="", PASSWORD=""):
     from selenium import webdriver
     from webdriver_manager.chrome import ChromeDriverManager
     from selenium.webdriver.chrome.service import Service
@@ -58,23 +55,23 @@ def login_104(USERNAME=username, PASSWORD=password):
         logout_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-v-b1877ad6][class="btn btn-secondary-b3 btn--sm btn--responsive"]')))
         logout_button.click()
     except Exception as e:
-        swb.sheets['搜尋人力'].range('D3').value = f"登出按鈕未找到或無法點擊: {e}"
+        wb.sheets['搜尋人力'].range('D3').value = f"登出按鈕未找到或無法點擊: {e}"
     
     time.sleep(10) # 等待跳轉
     try:
         # Get the title from the current page
         title = driver.title
-        swb.sheets['搜尋人力'].range('D3').value = title
+        wb.sheets['搜尋人力'].range('D3').value = title
         time.sleep(5)  # Wait for 5 seconds to ensure driver stability
         try:
             cookies = driver.get_cookies()
             print(f"Cookies: {cookies}")
             save_cookies_result = save_cookies_to_file(cookies)
-            swb.sheets['搜尋人力'].range('D4').value =str(save_cookies_result)
+            wb.sheets['搜尋人力'].range('D4').value =str(save_cookies_result)
             print(f"{save_cookies_result}")
         except Exception as e:
             print(f"Error getting cookies: {e}")
-            swb.sheets['搜尋人力'].range('D4').value = f"Error getting cookies: {e}"
+            wb.sheets['搜尋人力'].range('D4').value = f"取得cookies發生錯誤： {e}"
     finally:
         driver.quit() # 確保瀏覽器和 driver 進程被關閉
 
@@ -85,15 +82,15 @@ def save_cookies_to_file(cookies):
     try:
         with open(cookies_file, "w") as f:
             json.dump(cookies, f, indent=4)
-        return "Cookies saved to 104_cookies.json"
+        return "成功儲存104_cookies.json"
     except Exception as e:
-        error_message = f"Error saving cookies to 104_cookies.json: {e}, file path: {cookies_file}"
-        print(error_message)
+        error_message = f"儲存cookies發生錯誤： {e}, file path: {cookies_file}"
         return error_message
 
-import requests
 
 def load_cookies():
+    import requests
+    import json
     session = requests.Session()
     try:
         with open(os.path.join(script_dir, '104_cookies.json'), 'r') as f:
@@ -112,16 +109,21 @@ def load_cookies():
         # Extract the title
         if "<title>" in response.text:
             title = response.text.split("<title>")[1].split("</title>")[0]
+            wb.sheets['搜尋人力'].range('H3').value =title
             print(title)
         else:
             print("Error: <title> tag not found in the response.")
+            wb.sheets['搜尋人力'].range('H3').value = "Error: <title> tag not found in the response."
 
-    except FileNotFoundError:
+    except FileNotFoundError as e:
         print("Cookie file not found. Please generate cookies first.")
+        wb.sheets['搜尋人力'].range('H4').value = f"取得cookies發生錯誤： {e}"
     except requests.exceptions.RequestException as e:
         print(f"Request failed: {e}")
+        wb.sheets['搜尋人力'].range('H4').value = f"取得cookies發生錯誤： {e}"
     except Exception as e:
         print(f"An error occurred: {e}")
+        wb.sheets['搜尋人力'].range('H4').value = f"取得cookies發生錯誤： {e}"
 
 def scrape_data(session):
     print("在這裡執行您的爬蟲代碼...")
