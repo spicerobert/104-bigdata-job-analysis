@@ -90,7 +90,7 @@ def scrape_jobs(keyword="", area="", jobcat="", max_page=0):
             allJobsInform = soup.find_all('div', class_='info-container')
 
         # 寫入指定工作表
-        swb.sheets['TEMP'].range('A1').value = url
+        swb.sheets['搜尋職缺'].range('B3').value = url
         swb.sheets['職缺'].cells.clear_contents()
         swb.sheets['職缺'].range('A1').value = df.columns.tolist()
         swb.sheets['職缺'].range('A2').value =df.values
@@ -98,5 +98,5 @@ def scrape_jobs(keyword="", area="", jobcat="", max_page=0):
         return "爬蟲完成，資料已儲存至 ./data/104CrawlResult.xlsx"
 
     except Exception as e:
-        swb.sheets['TEMP'].range('A2').value = f"Error: {e}"
+        swb.sheets['搜尋職缺'].range('C2').value = f"Error: {e}"
         return f"爬蟲過程中發生錯誤: {e}"
