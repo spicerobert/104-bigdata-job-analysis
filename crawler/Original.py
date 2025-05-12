@@ -23,8 +23,17 @@ ws['J1'] = '縣市'
 ws['K1'] = '鄉鎮市區'
 
 # 爬取的 URL
-url = "https://www.104.com.tw/jobs/search/?jobsource=joblist_search&mode=s&order=15&page=2&jobcat=2001001001&keyword=%E9%A3%9F%E5%93%81&area=6001001000,6001002000"
-res = requests.get(url)
+url = "https://www.104.com.tw/jobs/search/?isJobList=1&jobsource=joblist_search&order=15page=1&jobcat=2001001001&keyword=%E9%A3%9F%E5%93%81&area=6001001000,6001002000"
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20210501 Firefox/47.0'}
+try:
+  res = requests.get(url,headers=headers)
+  res.raise_for_status()
+except Exception as e:
+    print('錯誤訊息：', e)
+else:
+    res.encoding = 'utf-8'
+    print(res.text)
+    
 soup = bs4.BeautifulSoup(res.text, "html.parser")  # 明確指定解析器
 allJobsInform = soup.find_all('div', class_='info-container')
 
@@ -74,8 +83,8 @@ while allJobsInform != []:
 
     # 下一頁
     page += 1
-    url = f"https://www.104.com.tw/jobs/search/?jobsource=joblist_search&mode=s&order=15&jobcat=2001001001&keyword=%E9%A3%9F%E5%93%81&area=6001001000,6001002000&page={page}"
-    res = requests.get(url)
+    url = f"https://www.104.com.tw/jobs/search/?isJobList=1&jobsource=joblist_search&order=15&jobcat=2001001001&keyword=%E9%A3%90%E5%93%81&area=6001001000,6001002000&page={page}"
+    res = requests.get(url, headers=headers) # Added headers here
     soup = bs4.BeautifulSoup(res.text, "html.parser")
     allJobsInform = soup.find_all('div', class_='info-container')
 
