@@ -1,13 +1,12 @@
 #先創建pandas DataFrame，再將爬取資料進行處理並存入，最後一次性輸出到Excel
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 # from selenium.common.exceptions import NoSuchElementException
 # from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
-
-
 from time import sleep
+import random
 import pandas as pd
 import xlwings as xw
 import urllib.parse
@@ -100,17 +99,20 @@ def scrape_jobs( keyword='', area='', jobcat='', max_page=0):
                     except Exception as e:
                         # print(f"資料解析錯誤：{e}")
                         swb.sheets['搜尋職缺'].range('C3').value=f"資料解析錯誤：{e}"
-
                 sleep(2) # Reduced sleep time for faster testing
+                # 下一頁
                 page += 1
+                if page > max_page:
+                    break                
                 url = f"{web_104}&page={page}&jobcat={jobcat}&keyword={encoded_keyword}&area={area}"
                 driver.get(url)
-                sleep(10)
+                sleep(random.uniform(6, 10))
                 allJobsInform  = driver.find_elements(By.CLASS_NAME, 'info-container')
             swb.sheets['搜尋職缺'].range('C2').value = f"全部頁面爬蟲完成"
             swb.sheets['職缺'].cells.clear_contents()
             swb.sheets['職缺'].range('A1').value = df.columns.tolist()
             swb.sheets['職缺'].range('A2').value =df.values
+            driver.quit()
         except Exception as e:
             # print(f"爬蟲過程中發生錯誤: {e}")
             swb.sheets['搜尋職缺'].range('C3').value=f"爬蟲過程中發生錯誤: {e}"
