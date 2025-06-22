@@ -40,7 +40,7 @@ def scrape_jobs( keyword='', area='', jobcat='', max_page=0):
         # 初始化 WebDriver
         # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
         driver = webdriver.Chrome(options=options)
-        driver.get(url)  
+        driver.get(url)
         # print(f"{driver.title}")
         page_title = driver.title
         swb.sheets['搜尋職缺'].range('C1').value= page_title

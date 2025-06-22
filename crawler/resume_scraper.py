@@ -1,7 +1,6 @@
 import time
 import os
 import xlwings as xw
-# wb = xw.Book.caller()
 script_dir = os.path.dirname(os.path.abspath(__file__))
 # --- 設定登入資訊 ---
 username = "robert@auntstella.com.tw"  # 請在這裡替換成您的 104 帳號，或從外部載入
@@ -9,6 +8,7 @@ password = "spice7434"  # 請在這裡替換成您的 104 密碼，或從外部�
 
 # 模擬登入104
 def login_104(USERNAME="", PASSWORD=""):
+    wb = xw.Book.caller()
     from selenium import webdriver
     from webdriver_manager.chrome import ChromeDriverManager
     from selenium.webdriver.chrome.service import Service
@@ -46,18 +46,17 @@ def login_104(USERNAME="", PASSWORD=""):
     login_button.click()
     time.sleep(30)  # 等待輸入驗證碼
 
-    # Wait for the element to be present
-    product_element = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.MultipleProduct__product')))
-    # Click the element
-    product_element.click()
-
     try:
+        # Wait for the element to be present
+        product_element = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.MultipleProduct__product')))
+        # Click the element
+        product_element.click()
         logout_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-v-b1877ad6][class="btn btn-secondary-b3 btn--sm btn--responsive"]')))
         logout_button.click()
     except Exception as e:
-        wb.sheets['搜尋人力'].range('D3').value = f"登出按鈕未找到或無法點擊"
-    
+        wb.sheets['搜尋人力'].range('D3').value = f"未輸入驗證碼，或原帳號未登出"    
     time.sleep(10) # 等待跳轉
+
     try:
         # Get the title from the current page
         title = driver.title
@@ -77,6 +76,7 @@ def login_104(USERNAME="", PASSWORD=""):
 
 # 儲存104_Cookies
 def save_cookies_to_file(cookies):
+    wb = xw.Book.caller()
     import json
     script_dir = os.path.dirname(os.path.abspath(__file__))
     cookies_file = os.path.join(script_dir, "104_cookies.json")
@@ -105,7 +105,7 @@ def load_cookies():
         return None
 
 
-def scrape_resumes():
+def scrape_resumes(jobcat='',kws='', city='', home='', workInterval='', sex='', workShift='', photo='', auto='', role='', agerange='', plastActionDateType='', updateDateType=''):
     from selenium import webdriver
     # from webdriver_manager.chrome import ChromeDriverManager
     from selenium.webdriver.chrome.service import Service
@@ -129,7 +129,8 @@ def scrape_resumes():
         driver = webdriver.Chrome(service=service, options=options)
 
         # 載入 cookies 前必須先導航到目標網域的頁面
-        driver.get("https://vip.104.com.tw") # 導航到 104 的任意頁面
+        url = "https://vip.104.com.tw"
+        driver.get(url) # 導航到 104 的任意頁面
 
         # 載入並添加 cookies
         cookies = load_cookies()
@@ -138,40 +139,36 @@ def scrape_resumes():
                 # Selenium requires 'expiry' to be an integer
                 if 'expiry' in cookie:
                     cookie['expiry'] = int(cookie['expiry'])
-                # Ensure 'domain' starts with '.' for subdomains if needed, or remove if not
-                # Depending on the site and cookie, you might need to adjust the domain
-                # For simplicity, we'll add as is, but be aware of potential domain issues
                 try:
                     driver.add_cookie(cookie)
                 except Exception as e:
                     print(f"添加 cookie 失敗: {cookie['name']}, 錯誤: {e}")
-
-
             print("Cookies 已添加到瀏覽器。")
-            time.sleep(2) # 給瀏覽器一點時間處理 cookies
+            time.sleep(10) # 給瀏覽器一點時間處理 cookies
 
         # 導航到實際的履歷頁面
-        resume_url = "https://vip.104.com.tw/search/listSearch"
+        base_url="https://vip.104.com.tw/search/searchResult?"
+        params = []  
+        if kws: params.append(f"kws={kws}") #關鍵字
+        if plastActionDateType != 0 or plastActionDateType != '0': params.append(f"plastActionDateType={plastActionDateType}") #最近活動日
+        if updateDateType != 0 or updateDateType != '0': params.append(f"updateDateType={updateDateType}") #履歷更新日
+        if jobcat: params.append(f"jobcat={jobcat}") #希望職類
+        if city: params.append(f"city={city}") #希望工作地
+        if home: params.append(f"home={home}") #居住地
+        if role: params.append(f"{role}") #工作性質 
+        if workInterval: params.append(f"{workInterval}") #上班時段
+        if workShift != '0': params.append(f"workShift={workShift}") #是否需要輪班
+        if agerange: params.append(f"{agerange}") #年齡範圍
+        if sex: params.append(f"sex={sex}") #性別
+        if photo != '0': params.append(f"photo={photo}") #是否有照片
+        if auto != '0': params.append(f"auto={auto}") #是否有自傳
+
+        resume_url = base_url + "&".join(params)
+        # test_resume_url = "https://vip.104.com.tw/search/searchResult?ec=1&kws=%E8%AD%B7%E7%90%86%E5%B8%AB&city=6001001005&home=6001001000,6001002000&plastActionDateType=1&workExpTimeType=all&workExpTimeMin=1&workExpTimeMax=1&sex=2&empStatus=0&updateDateType=1&contactPrivacy=0&sortType=RANK" # 請替換為一個實際的履歷 URL 進行測試
         driver.get(resume_url)
-
-        from selenium.webdriver.common.by import By
-        from selenium.webdriver.support.ui import WebDriverWait
-        from selenium.webdriver.support import expected_conditions as EC
-
-        # Wait for the element "更多查詢條件" to be clickable and click it
-        try:
-            more_options_link = WebDriverWait(driver, 10).until(
-                EC.element_to_be_clickable((By.CSS_SELECTOR, 'a[gtm-data-listsearch="更多查詢條件"]'))
-            )
-            more_options_link.click()
-            print("成功點擊 '更多查詢條件' 連結。")
-            time.sleep(3) # Wait for the section to expand
-        except Exception as e:
-            print(f"點擊 '更多查詢條件' 連結失敗: {e}")
 
         # --- 在這裡加入履歷資料的剖析邏輯 ---
         print("已導航到履歷頁面，請在此處加入剖析邏輯。")
-
 
         # 例如：
         # from selenium.webdriver.common.by import By
@@ -179,7 +176,7 @@ def scrape_resumes():
         # print(f"履歷標題: {resume_title_element.text}")
         # ... 更多剖析程式碼 ...
 
-        time.sleep(10) # 暫停一下以便觀察 (可移除)
+        time.sleep(60) # 暫停一下以便觀察 (可移除
 
     except Exception as e:
         print(f"爬取過程中發生錯誤: {e}")
@@ -193,5 +190,5 @@ if __name__== '__main__':
     # scrape_data(driver)
     # load_cookies() # 舊的 load_cookies 測試
     # 測試新的 scrape_resumes 函數
-    test_resume_url = "https://vip.104.com.tw/search/listSearch" # 請替換為一個實際的履歷 URL 進行測試
+    test_resume_url = "https://vip.104.com.tw/search/listSearch" # 請替換為一個實際的履歷 URL 進行測試    
     scrape_resumes()
