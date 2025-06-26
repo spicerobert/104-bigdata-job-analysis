@@ -105,7 +105,7 @@ def load_cookies():
         return None
 
 
-def scrape_resumes(jobcat='',kws='', city='', home='', workInterval='', sex='', workShift='', photo='', auto='', role='', agerange='', plastActionDateType='', updateDateType=''):
+def scrape_resumes(jobcat='',kws='', city='', home='', workInterval='', sex='', workShift='', photo='', auto='', role='', agerange='', plastActionDateType='', updateDateType='',contactPrivacy='0',workExpTimeType='', workExpTimeMin='', workExpTimeMax=''):
     from selenium import webdriver
     # from webdriver_manager.chrome import ChromeDriverManager
     from selenium.webdriver.chrome.service import Service
@@ -152,6 +152,7 @@ def scrape_resumes(jobcat='',kws='', city='', home='', workInterval='', sex='', 
         if kws: params.append(f"kws={kws}") #關鍵字
         if plastActionDateType != 0 or plastActionDateType != '0': params.append(f"plastActionDateType={plastActionDateType}") #最近活動日
         if updateDateType != 0 or updateDateType != '0': params.append(f"updateDateType={updateDateType}") #履歷更新日
+        if contactPrivacy : params.append(f"contactPrivacy={contactPrivacy}") #可Email和電話聯絡
         if jobcat: params.append(f"jobcat={jobcat}") #希望職類
         if city: params.append(f"city={city}") #希望工作地
         if home: params.append(f"home={home}") #居住地
@@ -162,6 +163,10 @@ def scrape_resumes(jobcat='',kws='', city='', home='', workInterval='', sex='', 
         if sex: params.append(f"sex={sex}") #性別
         if photo != '0': params.append(f"photo={photo}") #是否有照片
         if auto != '0': params.append(f"auto={auto}") #是否有自傳
+        if workExpTimeType != "":
+            params.append(f"workExpTimeType={workExpTimeType}") #總經歷
+            params.append(f"workExpTimeMin={workExpTimeMin}") # 最低經歷年限
+            params.append(f"workExpTimeMax={workExpTimeMax}") # 最高經歷年限
 
         resume_url = base_url + "&".join(params)
         # test_resume_url = "https://vip.104.com.tw/search/searchResult?ec=1&kws=%E8%AD%B7%E7%90%86%E5%B8%AB&city=6001001005&home=6001001000,6001002000&plastActionDateType=1&workExpTimeType=all&workExpTimeMin=1&workExpTimeMax=1&sex=2&empStatus=0&updateDateType=1&contactPrivacy=0&sortType=RANK" # 請替換為一個實際的履歷 URL 進行測試
