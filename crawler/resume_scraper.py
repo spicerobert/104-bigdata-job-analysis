@@ -112,8 +112,6 @@ def scrape_resumes(jobcat='',kws='', city='', home='', workInterval='', sex='', 
     from selenium.webdriver.chrome.options import Options
     import json
 
-    # print(f"開始使用 Selenium 爬取履歷資料： {resume_url}")
-
     # 設定 Chrome options
     options = Options()
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
@@ -127,8 +125,6 @@ def scrape_resumes(jobcat='',kws='', city='', home='', workInterval='', sex='', 
     driver = None # Initialize driver to None
     try:
         driver = webdriver.Chrome(service=service, options=options)
-
-        # 載入 cookies 前必須先導航到目標網域的頁面
         url = "https://vip.104.com.tw"
         driver.get(url) # 導航到 104 的任意頁面
 
@@ -156,6 +152,12 @@ def scrape_resumes(jobcat='',kws='', city='', home='', workInterval='', sex='', 
         if jobcat: params.append(f"jobcat={jobcat}") #希望職類
         if city: params.append(f"city={city}") #希望工作地
         if home: params.append(f"home={home}") #居住地
+        if workExpTimeType != "":
+            params.append(f"workExpTimeType={workExpTimeType}") #總經歷
+            if workExpTimeMin != "0": # 如果 workExpTimeMin 不為 "0"，則加入
+                params.append(f"workExpTimeMin={workExpTimeMin}") # 最低經歷年限
+            if workExpTimeMax != "0": # 如果 workExpTimeMax 不為 "0"，則加入
+                params.append(f"workExpTimeMax={workExpTimeMax}") # 最高經歷年限
         if role: params.append(f"{role}") #工作性質 
         if workInterval: params.append(f"{workInterval}") #上班時段
         if workShift != '0': params.append(f"workShift={workShift}") #是否需要輪班
@@ -163,13 +165,11 @@ def scrape_resumes(jobcat='',kws='', city='', home='', workInterval='', sex='', 
         if sex: params.append(f"sex={sex}") #性別
         if photo != '0': params.append(f"photo={photo}") #是否有照片
         if auto != '0': params.append(f"auto={auto}") #是否有自傳
-        if workExpTimeType != "":
-            params.append(f"workExpTimeType={workExpTimeType}") #總經歷
-            params.append(f"workExpTimeMin={workExpTimeMin}") # 最低經歷年限
-            params.append(f"workExpTimeMax={workExpTimeMax}") # 最高經歷年限
+        params.append(f"sortType=PLASTACTIONDATE")
 
         resume_url = base_url + "&".join(params)
         # test_resume_url = "https://vip.104.com.tw/search/searchResult?ec=1&kws=%E8%AD%B7%E7%90%86%E5%B8%AB&city=6001001005&home=6001001000,6001002000&plastActionDateType=1&workExpTimeType=all&workExpTimeMin=1&workExpTimeMax=1&sex=2&empStatus=0&updateDateType=1&contactPrivacy=0&sortType=RANK" # 請替換為一個實際的履歷 URL 進行測試
+        
         driver.get(resume_url)
 
         # --- 在這裡加入履歷資料的剖析邏輯 ---
