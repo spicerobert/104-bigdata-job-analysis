@@ -1,0 +1,12 @@
+[project]
+name = "104-bigdata-job-analysis"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.3.3",
+    "selenium>=4.35.0",
+    "webdriver-manager>=4.0.2",
+    "xlwings>=0.33.15",
+]

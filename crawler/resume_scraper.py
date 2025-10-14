@@ -106,10 +106,12 @@ def load_cookies():
 
 
 def scrape_resumes(jobcat='',kws='', city='', home='', workInterval='', sex='', workShift='', photo='', auto='', role='', agerange='', plastActionDateType='', updateDateType='',contactPrivacy='0',workExpTimeType='', workExpTimeMin='', workExpTimeMax=''):
+    wb = xw.Book.caller()
     from selenium import webdriver
     # from webdriver_manager.chrome import ChromeDriverManager
     from selenium.webdriver.chrome.service import Service
     from selenium.webdriver.chrome.options import Options
+    from selenium.webdriver.common.by import By
     import json
 
     # 設定 Chrome options
@@ -169,11 +171,34 @@ def scrape_resumes(jobcat='',kws='', city='', home='', workInterval='', sex='', 
 
         resume_url = base_url + "&".join(params)
         # test_resume_url = "https://vip.104.com.tw/search/searchResult?ec=1&kws=%E8%AD%B7%E7%90%86%E5%B8%AB&city=6001001005&home=6001001000,6001002000&plastActionDateType=1&workExpTimeType=all&workExpTimeMin=1&workExpTimeMax=1&sex=2&empStatus=0&updateDateType=1&contactPrivacy=0&sortType=RANK" # 請替換為一個實際的履歷 URL 進行測試
-        
         driver.get(resume_url)
-
         # --- 在這裡加入履歷資料的剖析邏輯 ---
-        print("已導航到履歷頁面，請在此處加入剖析邏輯。")
+        try:
+            allResumesInform = driver.find_elements(By.CLASS_NAME, 'resume-card-item')
+            resumes_data = []
+            for resume in allResumesInform:
+                # 抓取履歷資訊 using Selenium
+                # 範例：抓取姓名 (請根據實際網頁結構調整 CSS SELECTOR)
+                try:
+                    # 根據觀察，姓名是在 'a' tag 中，這裡直接使用 'a'
+                    resume_name = resume.find_element(By.CSS_SELECTOR, 'a').text.strip()
+                    if resume_name: # 確保抓取到的姓名不是空字串
+                        resumes_data.append(resume_name)
+                        print(f"找到履歷: {resume_name}")
+                except Exception as inner_e:
+                    print(f"剖析單個履歷時出錯: {inner_e}")
+            
+            # 在此處可以將 resumes_data 寫入 Excel
+            # 例如： wb.sheets['搜尋人力'].range('A1').options(transpose=True).value = resumes_data
+            wb.sheets['人力'].range('D5').value = f"成功抓取 {len(resumes_data)} 筆履歷資料。"
+
+        except Exception as e:
+            print(f"爬蟲過程中發生錯誤: {e}")
+            # 使用 wb 而非未定義的 swb，並寫入正確的工作表
+            wb.sheets['搜尋人力'].range('C3').value = f"爬蟲過程中發生錯誤: {e}"
+        # finally 區塊已移至函數最外層，此處不再需要 driver.quit()
+
+        print("已導航到履歷頁面，並完成第一頁資料剖析。")
 
         # 例如：
         # from selenium.webdriver.common.by import By
